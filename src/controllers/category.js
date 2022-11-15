@@ -5,18 +5,27 @@ const getAllCategories = async (req, res) => {
 };
 
 const getFavouriteCategories = async (req, res) => {
-  const favouriteCategory = await FavouriteCategories.findOne({});
-  return res.json(favouriteCategory);
+  try {
+    const favouriteCategory = await FavouriteCategories.findOne({});
+    return res.json(favouriteCategory);
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json(err);
+  }
 };
 
 const updateFavouriteCategories = async (req, res) => {
-  // update or create
-  const favouriteCategory = await FavouriteCategories.findOneAndUpdate(
-    {},
-    { categories: req.body.categories },
-    { upsert: true, new: true }
-  );
-  return res.json(favouriteCategory);
+  try {
+    const favouriteCategory = await FavouriteCategories.findOneAndUpdate(
+      {},
+      { categories: req.body.categories },
+      { upsert: true, new: true }
+    );
+    return res.json(favouriteCategory);
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json(err);
+  }
 };
 
 module.exports = {

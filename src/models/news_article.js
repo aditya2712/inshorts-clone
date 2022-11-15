@@ -15,4 +15,4 @@ const SavedNewsArticle = mongoose.model(
   savedNewsArticleSchema
 );
 
-module.exports = SavedNewsArticle;
+module.exports = { SavedNewsArticle };
