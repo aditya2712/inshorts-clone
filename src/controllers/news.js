@@ -3,7 +3,7 @@ const NewsAPI = require("newsapi");
 
 const { FavouriteCategories } = require("../models/category");
 const { SavedNewsArticle } = require("../models/news_article");
-const { checkIfAlreadySaved } = require("../utils/news");
+const { checkIfAlreadySaved, addSavedFlag } = require("../utils/news");
 
 const newsapi = new NewsAPI(process.env.news_api_key);
 
@@ -11,9 +11,13 @@ const getAllNews = async (req, res) => {
   try {
     const news = await newsapi.v2.topHeadlines({
       language: "en",
-      pageSize: 100,
+      pageSize: 20,
     });
-    return res.json(news);
+
+    // Add a flag to each news article to indicate if it is already saved
+    const news_with_saved_flag = await addSavedFlag(news.articles);
+
+    return res.json(news_with_saved_flag);
   } catch (err) {
     console.log(err);
     return res.status(500).json(err);
@@ -30,7 +34,11 @@ const getFavouriteNews = async (req, res) => {
           language: "en",
           category,
         });
-        return news;
+
+        // Add a flag to each news article to indicate if it is already saved
+        const news_with_saved_flag = await addSavedFlag(news.articles);
+
+        return res.json(news_with_saved_flag);
       })
     );
     return res.json(news);
