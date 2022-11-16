@@ -1,14 +1,14 @@
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View } from "react-native";
 
-import Categories from "./components/categories";
+import NewsList from "./components/news_list";
+import Nav from "./components/nav";
 
 export default function App() {
   return (
     <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <Categories />
-      <StatusBar style="auto" />
+      <Nav />
+      <NewsList />
     </View>
   );
 }
